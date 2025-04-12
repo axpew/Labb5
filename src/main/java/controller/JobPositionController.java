@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class JobPositionController {
@@ -42,6 +44,8 @@ public class JobPositionController {
 
     private CircularDoublyLinkedList jobPositionList;
     private Random random = new Random();
+    // Map to store hours and wages for each job position
+    private Map<Integer, double[]> jobValuesMap = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -84,10 +88,22 @@ public class JobPositionController {
             int size = list.size();
             for (int i = 1; i <= size; i++) {
                 JobPosition current = (JobPosition) list.getNode(i).data;
-                // Generar horas trabajadas aleatorias entre 40 y 50
-                double hoursWorked = 40 + random.nextDouble() * 10;
-                // Calcular salario mensual
-                double monthlySalary = current.getSalary(hoursWorked);
+                int jobId = current.getId();
+
+                double hoursWorked;
+                double monthlySalary;
+
+                // Check if we already have values for this job
+                if (jobValuesMap.containsKey(jobId)) {
+                    double[] values = jobValuesMap.get(jobId);
+                    hoursWorked = values[0];
+                    monthlySalary = values[1];
+                } else {
+                    // Generate new values only for new jobs
+                    hoursWorked = 40 + random.nextDouble() * 10;
+                    monthlySalary = current.getSalary(hoursWorked);
+                    jobValuesMap.put(jobId, new double[]{hoursWorked, monthlySalary});
+                }
 
                 // Crear un wrapper que contiene todos los datos necesarios
                 JobPositionWrapper wrapper = new JobPositionWrapper(
@@ -111,6 +127,7 @@ public class JobPositionController {
     public void clearOnAction(ActionEvent actionEvent) {
         try {
             jobPositionList.clear();
+            jobValuesMap.clear(); // Clear the stored values map when clearing the list
             employeesTableColumn.setItems(convertToObservableList(jobPositionList));
             taShowMessages.setText("Lista de puestos limpiada exitosamente.");
 
@@ -130,6 +147,8 @@ public class JobPositionController {
                 // Debemos buscar el objeto JobPosition real en nuestra lista
                 JobPosition toRemove = new JobPosition(selectedPosition.getId());
                 jobPositionList.remove(toRemove);
+                // Remove from our map as well
+                jobValuesMap.remove(selectedPosition.getId());
                 employeesTableColumn.setItems(convertToObservableList(jobPositionList));
                 taShowMessages.setText("Puesto eliminado exitosamente:\n" + selectedPosition.toString());
 
@@ -154,6 +173,8 @@ public class JobPositionController {
     public void removeLastOnAction(ActionEvent actionEvent) {
         try {
             JobPosition removedPosition = (JobPosition) jobPositionList.removeLast();
+            // Remove from our map as well
+            jobValuesMap.remove(removedPosition.getId());
             employeesTableColumn.setItems(convertToObservableList(jobPositionList));
             taShowMessages.setText("Último puesto eliminado:\n" + removedPosition.toString());
 
