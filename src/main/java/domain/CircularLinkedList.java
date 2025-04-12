@@ -80,7 +80,35 @@ public class CircularLinkedList implements List {
 
     @Override
     public void addInSortedList(Object element) {
+        if(isEmpty()) {
+            add(element);
+            return;
+        }
 
+        // Si el elemento es menor que el primer nodo, agregar al inicio
+        if(util.Utility.compare(element, first.data) < 0) {
+            addFirst(element);
+            return;
+        }
+
+        // Si el elemento es mayor que el último nodo, agregar al final
+        if(util.Utility.compare(element, last.data) > 0) {
+            addLast(element);
+            return;
+        }
+
+        // El elemento va en medio de la lista
+        Node newNode = new Node(element);
+        Node aux = first;
+
+        // Recorrer la lista hasta encontrar la posición adecuada
+        while(aux != last && util.Utility.compare(element, aux.next.data) > 0) {
+            aux = aux.next;
+        }
+
+        // Insertar el nuevo nodo entre aux y aux.next
+        newNode.next = aux.next;
+        aux.next = newNode;
     }
 
     @Override
@@ -274,6 +302,7 @@ public class CircularLinkedList implements List {
         //agregamos la info del último nodo
         return result+aux.data;
     }
+
 
 
 

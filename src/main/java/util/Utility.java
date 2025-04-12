@@ -1,5 +1,6 @@
 package util;
 
+import domain.CircularDoublyLinkedList;
 import domain.CircularLinkedList;
 import domain.Employee;
 import java.text.DecimalFormat;
@@ -13,6 +14,8 @@ public class Utility {
 
     private static final Random random;
     private static CircularLinkedList employeeList;
+    private static CircularDoublyLinkedList jobPositionList;
+    private static CircularDoublyLinkedList staffingList;
 
     //constructor estático, inicializador estático
     static {
@@ -20,75 +23,76 @@ public class Utility {
         long seed = System.currentTimeMillis();
         random = new Random(seed);
         employeeList = new CircularLinkedList();
+        jobPositionList = new CircularDoublyLinkedList();
+        staffingList = new CircularDoublyLinkedList();
     }
 
     public static CircularLinkedList getEmployeeList() {
         return employeeList;
     }
 
-    public static void setEmployeeList(CircularLinkedList employeeList) {Utility.employeeList = employeeList;}
+    public static void setEmployeeList(CircularLinkedList employeeList) {
+        Utility.employeeList = employeeList;
+    }
+
+    public static CircularDoublyLinkedList getJobPositionList() {
+        return jobPositionList;
+    }
+
+    public static void setJobPositionList(CircularDoublyLinkedList jobPositionList) {
+        Utility.jobPositionList = jobPositionList;
+    }
+
+    public static CircularDoublyLinkedList getStaffingList() {
+        return staffingList;
+    }
+
+    public static void setStaffingList(CircularDoublyLinkedList staffingList) {
+        Utility.staffingList = staffingList;
+    }
 
     // ------------------------------------------------------------- Métodos:
     public static int random(int bound){
-      // return(int) Math.floor(Math.random()*bound); //Forma 1
+        // return(int) Math.floor(Math.random()*bound); //Forma 1
         return 1+random.nextInt(bound);
-
     }
 
     public static void fill(int[] a) {
-
-    for (int i = 0; i < a.length; i++){
-        a[i] = random(99);
-
-    }
-
+        for (int i = 0; i < a.length; i++){
+            a[i] = random(99);
+        }
     }
 
     public static String format(long n) {
-
         return new DecimalFormat("###,###,###.##").format(n); //Establecer un formato para n
-
     }
 
     public static String format(double n) {
-
         return new DecimalFormat("###,###,###.##").format(n); //Establecer un formato para n
-
     }
 
     public static String $format(double n) {
-
         return new DecimalFormat("$###,###,###.##").format(n); //Establecer un formato para n
-
     }
 
     public static int min(int x, int y) {
-
         return x<y ? x : y;
-
     }
 
     public static int max(int x, int y) {
-
         return x>y ? x : y;
-
     }
 
     public static String show(int[] a) {
-
         String result ="";
         for (int item : a){
             if (item == 0) break; //si es cero es porque no hay más elementos
             result+=item + " ";
-
         }//End for
-
-     return result;
+        return result;
     }
 
-
     public static int compare(Object a, Object b) {
-
         switch (instanceOf(a,b)){
             case "Integer":
                 Integer int1 = (Integer)a;
@@ -107,25 +111,23 @@ public class Utility {
             case "Employee":
                 Employee emp1 = (Employee) a; Employee emp2 = (Employee) b;
                 return emp1.getId() < emp2.getId() ? -1 :  emp1.getId() > emp2.getId() ? 1 : 0;
-
-
         }//End switch
 
         return 2; //Cuando es un caso Unknown
     }
 
     public static String instanceOf(Object a, Object b) {
-
         if (a instanceof Integer && b instanceof Integer) return "Integer";
         if (a instanceof String && b instanceof String) return "String";
         if (a instanceof Character && b instanceof Character) return "Character";
         if(a instanceof Employee && b instanceof Employee) return "Employee";
 
         return "Unknown";
-
     }
 
-    public static String dateFormat(Date value) {return new SimpleDateFormat("dd/MM/yyyy").format(value);}//End dateFormat
+    public static String dateFormat(Date value) {
+        return new SimpleDateFormat("dd/MM/yyyy").format(value);
+    }//End dateFormat
 
     public static Date parseDate(String dateStr) { //Convierte de String a Date
         SimpleDateFormat fechaFormateada = new SimpleDateFormat("dd/MM/yyyy");
@@ -138,7 +140,6 @@ public class Utility {
     }
 
     public static int getAge(Date date) {
-
         Calendar calendarBD = Calendar.getInstance();
         calendarBD.setTime(date);
 
@@ -153,6 +154,4 @@ public class Utility {
 
         return age;
     }
-
-
 }
