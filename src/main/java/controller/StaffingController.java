@@ -26,7 +26,6 @@ public class StaffingController {
     @FXML
     private TextArea taShowMessages;
 
-    // Nuevas columnas según el FXML actualizado
     @FXML
     private TableColumn dateTableColumn;
     @FXML
@@ -38,7 +37,7 @@ public class StaffingController {
     @FXML
     private TableColumn supervisorTableColumn;
     @FXML
-    private TableColumn firstNameTableColumn1; // Assignation Type
+    private TableColumn assignTypeTableColumn; // Assignation Type
 
     private CircularDoublyLinkedList staffingList;
     private static int autoStaffId = 1; // Para auto-generar IDs
@@ -66,7 +65,7 @@ public class StaffingController {
         EmpNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         jobTableColumn.setCellValueFactory(new PropertyValueFactory<>("jobPosition"));
         supervisorTableColumn.setCellValueFactory(new PropertyValueFactory<>("supervisor"));
-        firstNameTableColumn1.setCellValueFactory(new PropertyValueFactory<>("assignmentType"));
+        assignTypeTableColumn.setCellValueFactory(new PropertyValueFactory<>("assignmentType"));
 
         try {
             taShowMessages.setText("Lista de asignaciones cargada con éxito. Total de asignaciones: " + this.staffingList.size());

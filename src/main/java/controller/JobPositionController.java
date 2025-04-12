@@ -36,9 +36,9 @@ public class JobPositionController {
     @FXML
     private TableColumn lastNameTableColumn;
     @FXML
-    private TableColumn titleTableColumn; // Esta es para Total Hours
+    private TableColumn totalHoursTableColumn; // Esta es para Total Hours
     @FXML
-    private TableColumn birthdayTableColumn; // Esta es para Monthly Wage
+    private TableColumn monthlyWageTableColumn; // Esta es para Monthly Wage
 
     private CircularDoublyLinkedList jobPositionList;
     private Random random = new Random();
@@ -62,8 +62,8 @@ public class JobPositionController {
         idTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         lastNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("hourlyWage"));
-        titleTableColumn.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
-        birthdayTableColumn.setCellValueFactory(new PropertyValueFactory<>("monthlyWage"));
+        totalHoursTableColumn.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
+        monthlyWageTableColumn.setCellValueFactory(new PropertyValueFactory<>("monthlyWage"));
 
         try {
             taShowMessages.setText("Lista de puestos de trabajo cargada con éxito. Total de puestos: " + this.jobPositionList.size());
